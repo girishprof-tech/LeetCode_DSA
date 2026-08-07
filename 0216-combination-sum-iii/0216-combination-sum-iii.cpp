@@ -1,9 +1,10 @@
 class Solution {
 public:
     void func(vector<vector<int>> &ans, int num, vector<int>& temp, int n, int k) {
-        if (temp.size() > k) return;
-        if (temp.size() == k && n == 0) {
-            ans.push_back(temp);
+        if (temp.size() == k) {
+            if (n == 0) {
+                ans.push_back(temp);
+            }
             return;
         }
 
