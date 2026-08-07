@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void func(vector<vector<int>> &ans, vector<int> &nums, vector<int> temp, int i) {
+    void func(vector<vector<int>> &ans, vector<int> &nums, vector<int> &temp, int i) {
         if (i == nums.size()) {
             ans.push_back(temp);
             return;
