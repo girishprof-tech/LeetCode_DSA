@@ -1,6 +1,6 @@
 class Solution {
 public:
-    void func(string &digits, vector<string> &ans, string s, int ind, vector<vector<char>> &mpp) {
+    void func(string &digits, vector<string> &ans, string &s, int ind, vector<vector<char>> &mpp) {
         if (s.length() == digits.length()) {
             ans.push_back(s);
             return;
@@ -8,7 +8,9 @@ public:
         vector<char> vec = mpp[digits[ind] - '0'];
         for (int i = 0; i < vec.size(); i++) {
             char ch = vec[i];
-            func(digits, ans, s + ch, ind + 1, mpp);
+            s.push_back(ch);
+            func(digits, ans, s, ind + 1, mpp);
+            s.pop_back();
         }
     }
     vector<string> letterCombinations(string &digits) {
