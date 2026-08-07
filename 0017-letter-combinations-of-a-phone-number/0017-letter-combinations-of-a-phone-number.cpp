@@ -11,7 +11,7 @@ public:
             func(digits, ans, s + ch, ind + 1, mpp);
         }
     }
-    vector<string> letterCombinations(string digits) {
+    vector<string> letterCombinations(string &digits) {
         vector<vector<char>> mpp(10);
 
         char ch = 'a';
