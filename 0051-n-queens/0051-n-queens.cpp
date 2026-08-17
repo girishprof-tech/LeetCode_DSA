@@ -1,45 +1,32 @@
 class Solution {
 public:
-    bool isSafe(vector<vector<char>> board, int row, int col, int n) {
-        for (int j = 0; j < n; j++) {
-            if (board[row][j] == 'Q') return false;
-        }
-
-        for (int i = row, j = col; i >= 0 && j >= 0; i--, j--) {
-            if (board[i][j] == 'Q') return false;
-        }
-
-        for (int i = row, j = col; i < n && j >= 0; i++, j--) {
-            if (board[i][j] == 'Q') return false;
-        }
-
-        return true;
-    }
-    void func(vector<vector<string>>& ans, vector<vector<char>>& board, int n, int c) {
+    void func(vector<vector<string>>& ans, vector<string>& board, int n, int c, vector<int>& left, vector<int>& upper, vector<int>& lower) {
         if (n == c) {
-            vector<string> temp;
-
-            for (int i = 0; i < n; i++) {
-                string row(board[i].begin(), board[i].end());
-                temp.push_back(row);
-            }
-
-            ans.push_back(temp);
+            ans.push_back(board);
             return;
         }
 
         for (int r = 0; r < n; r++) {
-            if (isSafe(board, r, c, n)) {
+            if (left[r] == 0 && upper[n - 1 + c - r] == 0 && lower[r + c] == 0) {
                 board[r][c] = 'Q';
-                func(ans, board, n, c + 1);
+                left[r] = 1;
+                upper[n - 1 + c - r] = 1;
+                lower[r + c] = 1;
+
+                func(ans, board, n, c + 1, left, upper, lower);
+
                 board[r][c] = '.';
+                left[r] = 0;
+                upper[n - 1 + c - r] = 0;
+                lower[r + c] = 0;
             }
         }
     }
     vector<vector<string>> solveNQueens(int n) {
         vector<vector<string>> ans;
-        vector<vector<char>> board(n, vector<char>(n, '.'));
-        func(ans, board, n, 0);
+        vector<string> board(n, string(n, '.'));
+        vector<int> left(n, 0), upper(2 * n - 1, 0), lower(2 * n - 1, 0);
+        func(ans, board, n, 0, left, upper, lower);
         return ans;
     }
 };
