@@ -12,9 +12,9 @@ public:
         r = (r / 3) * 3;
         c = (c / 3) * 3;
 
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-                if (board[i + r][j + c] == num) return false;
+        for (int i = r; i < r + 3; i++) {
+            for (int j = c; j < c + 3; j++) {
+                if (board[i][j] == num) return false;
             }
         }
 
