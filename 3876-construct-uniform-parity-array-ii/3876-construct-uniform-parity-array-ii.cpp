@@ -1,25 +1,21 @@
 class Solution {
 public:
-    bool checkForEven(vector<int>& nums1) {
+    bool uniformArray(vector<int>& nums1) {
         int n = nums1.size();
+
+        int minIdx = -1;
         int idx = -1;
+        int mn = INT_MAX;
         for (int i = 0; i < n; i++) {
-            if (nums1[i] % 2 == 1) {
-                idx = i;
-                break;
+            if (nums1[i] < mn) {
+                mn = nums1[i];
+                minIdx = i;
             }
+
+            if (idx == -1 && nums1[i] % 2 == 1) idx = i;
         }
 
-        if (idx == -1) return true;
+        if (mn % 2 == 1 || idx == -1) return true;
         return false;
-    }
-
-    bool uniformArray(vector<int>& nums1) {
-        sort(nums1.begin(), nums1.end());
-
-        if (nums1[0] % 2 == 0)
-            return checkForEven(nums1);
-
-        return true;
     }
 };
