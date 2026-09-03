@@ -1,6 +1,7 @@
 class Solution {
 public:
-    bool checkForEven(vector<int>& nums1, int n) {
+    bool checkForEven(vector<int>& nums1) {
+        int n = nums1.size();
         int idx = -1;
         for (int i = 0; i < n; i++) {
             if (nums1[i] % 2 == 1) {
@@ -17,7 +18,7 @@ public:
         sort(nums1.begin(), nums1.end());
 
         if (nums1[0] % 2 == 0)
-            return checkForEven(nums1, nums1.size());
+            return checkForEven(nums1);
 
         return true;
     }
