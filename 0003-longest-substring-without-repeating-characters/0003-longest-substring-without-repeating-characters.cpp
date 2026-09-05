@@ -7,7 +7,7 @@ public:
         int left = 0;
         
         for (int right = 0; right < n; right++) {
-            if (hash[s[right]] >= left) {
+            while (hash[s[right]] >= left) {
                 left = hash[s[right]] + 1;
             }
 
