@@ -3,7 +3,7 @@ public:
     int lengthOfLongestSubstring(string s) {
         int n = s.size();
         int mx = 0;
-        vector<int> hash(256, -1);
+        vector<int> hash(128, -1);
         int left = 0;
         
         for (int right = 0; right < n; right++) {
