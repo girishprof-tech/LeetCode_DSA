@@ -5,7 +5,6 @@ public:
         int n2 = nums2.size();
         unordered_map<int, int> hash;
         stack<int> st;
-        vector<int> ans(n1);
 
         for (int i = n2 - 1; i >= 0; i--) {
             while (!st.empty() && st.top() <= nums2[i]) st.pop();
@@ -13,8 +12,9 @@ public:
             st.push(nums2[i]);
         }
 
+        vector<int> ans;
         for (int i = 0; i < n1; i++) {
-            ans[i] = hash[nums1[i]];
+            ans.push_back(hash[nums1[i]]);
         }
 
         return ans;
