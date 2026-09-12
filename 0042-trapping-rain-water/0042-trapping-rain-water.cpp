@@ -10,17 +10,16 @@ public:
         while (l < r) {
             if (height[l] <= height[r]) {
                 if (lMax > height[l]) {
-                    water += min(lMax, height[r]) - height[l];
+                    water += lMax - height[l];
                 }
-                lMax = max(lMax, height[l]);
+                else lMax = height[l];
                 l++;
             }
             else {
                 if (rMax > height[r]) {
-                    water += min(height[l], rMax) - height[r];
+                    water += rMax - height[r];
                 }
-
-                rMax = max(rMax, height[r]);
+                else rMax = height[r];
                 r--;
             }
         }
