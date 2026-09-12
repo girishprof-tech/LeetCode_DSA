@@ -5,12 +5,7 @@ public:
         if (n <= 2) return 0;
 
         int water = 0;
-
-        vector<int> prefix(n);
-        prefix[0] = height[0];
-        for (int i = 1; i < n; i++) {
-            prefix[i] = max(prefix[i - 1], height[i]);
-        }
+        int prefix = height[0];
 
         vector<int> suffix(n);
         suffix[n - 1] = height[n - 1];
@@ -19,9 +14,11 @@ public:
         }
 
         for (int i = 1; i < n - 1; i++) {
-            if (prefix[i - 1] > height[i] && suffix[i + 1] > height[i]) {
-                water += min(prefix[i - 1], suffix[i + 1]) - height[i];
+            if (prefix > height[i] && suffix[i + 1] > height[i]) {
+                water += min(prefix, suffix[i + 1]) - height[i];
             }
+
+            prefix = max(prefix, height[i]);
         }
 
         return water;
