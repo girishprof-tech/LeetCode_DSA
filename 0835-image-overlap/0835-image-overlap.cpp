@@ -21,10 +21,10 @@ public:
         int ans = 0;
         vector<vector<int>> freq(2 * n, vector<int>(2 * n, 0));
 
-        for (int i = 0; i < n1; i++) {
-            for (int j = 0; j < n2; j++) {
-                int x = b[j].first - a[i].first + n;
-                int y = b[j].second - a[i].second + n;
+        for (auto& i : a) {
+            for (auto& j : b) {
+                int x = j.first - i.first + n;
+                int y = j.second - i.second + n;
 
                 freq[x][y]++;
                 ans = max(ans, freq[x][y]);
