@@ -7,34 +7,28 @@ public:
             else return 0;
         }
 
-        vector<pair<int, int>> a;
-        vector<pair<int, int>> b;
+        vector<pair<int, int>> a, b;
         
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (img1[i][j] == 1) a.push_back({i, j});
-                if (img2[i][j] == 1) b.push_back({i, j});
+                if (img1[i][j] == 1) a.emplace_back(i, j);
+                if (img2[i][j] == 1) b.emplace_back(i, j);
             }
         }
-
+        
         int n1 = a.size();
         int n2 = b.size();
-
-        map<pair<int, int>, int> freq;
+        int ans = 0;
+        vector<vector<int>> freq(2 * n, vector<int>(2 * n, 0));
 
         for (int i = 0; i < n1; i++) {
             for (int j = 0; j < n2; j++) {
-                int x = b[j].first - a[i].first;
-                int y = b[j].second - a[i].second;
+                int x = b[j].first - a[i].first + n;
+                int y = b[j].second - a[i].second + n;
 
-                freq[{x, y}]++;
+                freq[x][y]++;
+                ans = max(ans, freq[x][y]);
             }
-        }
-
-        int ans = 0;
-
-        for (pair<pair<int, int>, int> it : freq) {
-            ans = max(it.second, ans);
         }
 
         return ans;
