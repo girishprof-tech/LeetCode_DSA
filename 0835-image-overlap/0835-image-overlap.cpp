@@ -2,10 +2,6 @@ class Solution {
 public:
     int largestOverlap(vector<vector<int>>& img1, vector<vector<int>>& img2) {
         int n = img1.size();
-        if (n == 1) {
-            if (img1[0][0] == 1 && img2[0][0] == 1) return 1;
-            else return 0;
-        }
 
         vector<pair<int, int>> a;
         vector<pair<int, int>> b;
