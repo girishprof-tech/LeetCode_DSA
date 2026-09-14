@@ -9,8 +9,7 @@ public:
 
         for (int i = 0; i < n; i++) {
             while (!st.empty() && arr[st.top()] >= arr[i]) st.pop();
-            if (st.empty()) prevSmall[i] = -1;
-            else prevSmall[i] = st.top();
+            prevSmall[i] = st.empty() ? -1 : st.top();
             st.push(i);
         }
 
@@ -18,8 +17,7 @@ public:
 
         for (int i = n - 1; i >= 0; i--) {
             while (!st.empty() && arr[st.top()] > arr[i]) st.pop();
-            if (st.empty()) nextSmall[i] = n;
-            else nextSmall[i] = st.top();
+            nextSmall[i] = st.empty() ? n : st.top();
             st.push(i);
         }
 
@@ -29,7 +27,7 @@ public:
             long long left = i - prevSmall[i];
             long long right = nextSmall[i] - i;
 
-            sum = (sum + (left * right * arr[i])) % MOD;
+            sum = (sum + left * right * arr[i]) % MOD;
         }
 
         return sum;
