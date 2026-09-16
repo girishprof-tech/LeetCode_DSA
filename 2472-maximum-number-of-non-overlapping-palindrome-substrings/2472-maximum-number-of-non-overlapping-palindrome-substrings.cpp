@@ -23,7 +23,7 @@ public:
                 l += k, r += k;
                 cnt++;
             }
-             else if (isPalindrome(s, l, r+1)) {
+            else if (isPalindrome(s, l, r+1)) {
                 l += k + 1;
                 r += k + 1;
                 cnt++;
