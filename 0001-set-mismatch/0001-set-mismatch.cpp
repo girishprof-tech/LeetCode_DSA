@@ -1,26 +1,14 @@
 class Solution {
 public:
     vector<int> findErrorNums(vector<int>& nums) {
-        int n = nums.size();
-        vector<int> freq(n + 1, 0);
-
-        int og = n * (n + 1) / 2;
-        int sum = 0;
-        for (int num : nums) {
-            sum += num;
-            freq[num]++;
+        int miss=-1,dup=-1;
+        int i=1;
+        while(i<=nums.size()){
+            if(count(nums.begin(), nums.end(), i)>1)    dup=i;
+            if(count(nums.begin(),nums.end(),i)==0) miss=i;
+            if(dup!=-1 && miss!=-1) return {dup,miss};
+            i++;
         }
-
-        int twice = 0;
-
-        for (int i = 0; i < n + 1; i++) {
-            if (freq[i] == 2) {
-                twice = i;
-                break;
-            }
-        }
-
-        int missing = twice + og - sum;
-        return {twice, missing};
+        return {dup,miss};
     }
 };
