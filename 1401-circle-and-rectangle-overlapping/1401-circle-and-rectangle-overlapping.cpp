@@ -1,18 +1,18 @@
 class Solution {
 public:
-    double dis(int xCenter, int yCenter, int x, int y) {
-        return sqrt((x - xCenter) * (x - xCenter) +
-                    (y - yCenter) * (y - yCenter));
-    }
     bool checkOverlap(int radius, int xCenter, int yCenter, int x1, int y1,
                       int x2, int y2) {
-        if (dis(xCenter, yCenter, x1, y1) <= radius)
+        if (sqrt((x1 - xCenter) * (x1 - xCenter) +
+                 (y1 - yCenter) * (y1 - yCenter)) <= radius)
             return true;
-        if (dis(xCenter, yCenter, x1, y2) <= radius)
+        if (sqrt((x2 - xCenter) * (x2 - xCenter) +
+                 (y1 - yCenter) * (y1 - yCenter)) <= radius)
             return true;
-        if (dis(xCenter, yCenter, x2, y1) <= radius)
+        if (sqrt((x1 - xCenter) * (x1 - xCenter) +
+                 (y2 - yCenter) * (y2 - yCenter)) <= radius)
             return true;
-        if (dis(xCenter, yCenter, x2, y2) <= radius)
+        if (sqrt((x2 - xCenter) * (x2 - xCenter) +
+                 (y2 - yCenter) * (y2 - yCenter)) <= radius)
             return true;
 
         if (y1 <= yCenter && y2 >= yCenter &&
