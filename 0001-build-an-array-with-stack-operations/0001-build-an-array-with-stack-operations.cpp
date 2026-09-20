@@ -5,7 +5,6 @@ public:
         vector<string> ans;
 
         int stream = 1;
-        stack<int> st;
 
         for (int i = 0; i < m; i++) {
             while (stream != target[i]) {
