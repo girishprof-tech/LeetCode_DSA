@@ -17,8 +17,7 @@ public:
                 else st.push(op1 / op2);
             }
             else {
-                int temp = stoi(tokens[i]);
-                st.push(temp);
+                st.push(stoi(tokens[i]));
             }
         }
 
