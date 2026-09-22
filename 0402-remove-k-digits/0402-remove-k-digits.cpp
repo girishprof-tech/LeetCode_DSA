@@ -7,9 +7,8 @@ public:
         
         string ans = "";
         stack<char> st;
-        st.push(num[0]);
 
-        for (int i = 1; i < n; i++) {
+        for (int i = 0; i < n; i++) {
             while (k > 0 && !st.empty() && num[i] < st.top()) {
                 k--;
                 st.pop();
@@ -20,7 +19,7 @@ public:
             if (st.size() == 1 && num[i] == '0') st.pop();
         }
 
-        while (k && !st.empty()) {
+        while (k != 0 && !st.empty()) {
             st.pop();
             k--;
         }
