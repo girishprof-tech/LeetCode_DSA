@@ -29,15 +29,9 @@ public:
             st.pop();
         }
 
-        int m = ans.size();
-        for (int i = 0; i < m / 2; i++) {
-            int temp = ans[i];
-            ans[i] = ans[m - i - 1];
-            ans[m - i - 1] = temp;
-        }
-
         if (ans.length() == 0) return "0";
 
+        reverse(ans.begin(), ans.end());
         return ans;
     }
 };
