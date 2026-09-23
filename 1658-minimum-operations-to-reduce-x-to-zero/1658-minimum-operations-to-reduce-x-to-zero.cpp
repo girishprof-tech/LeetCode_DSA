@@ -7,7 +7,7 @@ public:
         if (total == x) return n;
 
         int l = 0;
-        long long sum = 0;
+        int sum = 0;
         int mx = 0;
         for (int r = 0; r < n; r++) {
             sum += nums[r];
