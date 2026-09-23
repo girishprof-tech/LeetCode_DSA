@@ -2,8 +2,6 @@ class Solution {
 public:
     int minOperations(vector<int>& nums, int x) {
         int n = nums.size();
-        if (nums[0] > x && nums[n - 1] > x) return -1;
-        if (nums[0] == x || nums[n - 1] == x) return 1;
         int total = accumulate(nums.begin(), nums.end(), 0);
         if (total < x) return -1;
         if (total == x) return n;
