@@ -5,10 +5,7 @@ public:
         if (nums[0] > x && nums[n - 1] > x) return -1;
         if (nums[0] == x || nums[n - 1] == x) return 1;
 
-        int total = 0;
-        for (int el : nums) {
-            total += el;
-        }
+        int total = accumulate(nums.begin(), nums.end(), 0);
 
         if (total < x) return -1;
 
