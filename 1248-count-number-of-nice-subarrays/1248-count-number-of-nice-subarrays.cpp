@@ -7,7 +7,7 @@ public:
         vector<int> hash;
 
         for (int i = 0; i < n; i++) {
-            if (nums[i] % 2 == 1) hash.push_back(i);
+            if (nums[i] & 1) hash.push_back(i);
         }
 
         int cnt = hash.size();
