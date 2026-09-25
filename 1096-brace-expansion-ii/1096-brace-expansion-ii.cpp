@@ -1,29 +1,50 @@
 class Solution {
 public:
-    set<string> ans;
-    void dfs(string s) {
-        int r = s.find('}');
+    int i = 0;
+    set<string> multiply(set<string> &A, set<string> &B) {
+        set<string> ans;
 
-        if (r == string::npos) {
-            ans.insert(s);
-            return;
+        for (auto& x : A) {
+            for (auto& y : B) {
+                ans.insert(x + y);
+            }
         }
 
-        int l = s.rfind('{', r);
+        return ans;
+    }
+    set<string> parse(string &s) {
+        set<string> ans;
+        set<string> curr = {""};
 
-        string left = s.substr(0, l);
-        string mid = s.substr(l + 1, r - l - 1);
-        string right = s.substr(r + 1);
+        while (i < s.size() && s[i] != '}') {
+            if (s[i] == ',') {
+                ans.insert(curr.begin(), curr.end());
+                curr = {""};
+                i++;
+            }
 
-        string part;
-        stringstream ss(mid);
+            else if (s[i] == '{') {
+                i++;
+                set<string> temp = parse(s);
+                curr = multiply(curr, temp);
+            }
 
-        while(getline(ss, part, ',')) {
-            dfs(left + part + right);
+            else {
+                set<string> temp = {string(1, s[i])};
+                curr = multiply(curr, temp);
+                i++;
+            }
         }
+
+        ans.insert(curr.begin(), curr.end());
+
+        if (i < s.size() && s[i] == '}') i++;
+
+        return ans;
+
     }
     vector<string> braceExpansionII(string exp) {
-        dfs(exp);
-        return vector<string>(ans.begin(), ans.end());
+        set<string> res = parse(exp);
+        return vector<string>(res.begin(), res.end());
     }
 };
