@@ -18,7 +18,7 @@ public:
             }
             else if (s[i] == ')') {
                 flag = 0;
-                
+
                 if (mpp.find(check) != mpp.end()) {
                     ans += mpp[check];
                 }
@@ -35,6 +35,5 @@ public:
         }
 
         return ans;
-
     }
 };
