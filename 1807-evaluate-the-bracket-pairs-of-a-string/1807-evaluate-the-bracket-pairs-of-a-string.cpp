@@ -14,7 +14,6 @@ public:
         for (int i = 0; i < n; i++) {
             if (s[i] == '(') {
                 flag = true;
-                continue;
             }
             else if (s[i] == ')') {
                 flag = 0;
