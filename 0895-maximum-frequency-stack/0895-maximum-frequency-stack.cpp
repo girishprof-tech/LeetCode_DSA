@@ -5,16 +5,14 @@ int most = 0;
 
 public:
     void push(int val) {
-        freq[val]++;
+        most = max(most, ++freq[val]);
         mpp[freq[val]].push(val);
-        most = max(most, freq[val]);
     }
     
     int pop() {
         int res = mpp[most].top();
-        freq[res]--;
         mpp[most].pop();
-        if (mpp[most].empty()) most--;
+        if (!mpp[freq[res]--].size()) most--;
         return res;
     }
 };
