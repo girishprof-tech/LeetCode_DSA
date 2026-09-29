@@ -3,17 +3,14 @@ public:
     vector<vector<char>> rotateTheBox(vector<vector<char>>& box) {
         int m = box.size();
         int n = box[0].size();
-        vector<vector<char>> ans(n, vector<char>(m));
+        vector<vector<char>> ans(n, vector<char>(m, '.'));
 
         for (int j = m - 1; j >= 0; j--) {
             int cnt = 0;
             int row = m - j - 1;
 
             for (int i = n - 1; i >= 0; i--) {
-                if (box[row][i] == '.') { 
-                    ans[i][j] = '.';
-                    cnt++;
-                }
+                if (box[row][i] == '.') cnt++;
                 else if (box[row][i] == '*') {
                     cnt = 0;
                     ans[i][j] = '*';
