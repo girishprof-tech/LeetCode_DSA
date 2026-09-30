@@ -3,10 +3,10 @@ public:
     vector<int> maxDepthAfterSplit(string seq) {
         int n = seq.length();
         vector<int> ans;
-        int d1 = 0;
-        int d2 = 0;
+        int d1 = 0, d2 = 0;
 
-        for (char ch : seq) {
+        for (int i = 0; i < n; i++) {
+            char ch = seq[i];
             if (ch == '(') {
                 if (d1 > d2) {
                     d2++;
