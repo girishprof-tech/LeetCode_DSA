@@ -6,7 +6,7 @@ public:
         
         int prevTime = 0;
 
-        for (string log : logs) {
+        for (const string& log : logs) {
             int j1 = log.find(':');
             int j2 = log.find(':', j1 + 1);
 
