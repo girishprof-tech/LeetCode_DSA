@@ -11,10 +11,10 @@ public:
             int j2 = log.find(':', j1 + 1);
 
             int id = stoi(log.substr(0, j1));
-            string type = log.substr(j1 + 1, j2 - j1 - 1);
+            char type = log[j1 + 1];
             int time = stoi(log.substr(j2 + 1));
 
-            if (type == "start") {
+            if (type == 's') {
                 if (!st.empty()) {
                     ans[st.top()] += time - prevTime;
                 }
