@@ -3,7 +3,7 @@ public:
     int longestValidParentheses(string s) {
         int n = s.size();
         stack<int> st;
-        st.push(-1);
+        int start = -1;
         int maxi = 0;
         
         for (int i = 0; i < n; i++) {
@@ -11,12 +11,15 @@ public:
                 st.push(i);
             } 
             else {
-                st.pop();
-
                 if (st.empty()) {
-                    st.push(i);
+                    start = i;
+                }
+                else if (st.size() == 1) {
+                    st.pop();
+                    maxi = max(maxi, i - start);
                 }
                 else {
+                    st.pop();
                     maxi = max(maxi, i - st.top());
                 }
             }
