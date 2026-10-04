@@ -4,36 +4,25 @@ public:
         int n = heights.size();
         
         stack<int> st;
-        vector<int> nextSmaller(n);
-        vector<int> prevSmaller(n);
+        int maxi = 0;
 
         for (int i = 0; i < n; i++) {
-            while (!st.empty() && heights[st.top()] >= heights[i]) st.pop();
-
-            if (st.empty()) prevSmaller[i] = -1;
-            else prevSmaller[i] = st.top();
+            while (!st.empty() && heights[st.top()] > heights[i]) {
+                int top = st.top();
+                st.pop();
+                int pse = st.empty() ? -1 : st.top();
+                maxi = max(maxi, heights[top] * (i - pse - 1));
+            }
 
             st.push(i);
         }
 
         while (!st.empty()) {
+            int top = st.top();
             st.pop();
-        }
 
-        for (int i = n - 1; i >= 0; i--) {
-            while (!st.empty() && heights[i] < heights[st.top()]) st.pop();
-
-            if (st.empty()) nextSmaller[i] = n;
-            else nextSmaller[i] = st.top();
-
-            st.push(i);
-        }
-
-        int maxi = 0;
-
-        for (int i = 0; i < n; i++) {
-            int curr = (nextSmaller[i] - prevSmaller[i] - 1) * heights[i];
-            maxi = max(curr, maxi);
+            int pse = st.empty() ? -1 : st.top();
+            maxi = max(maxi, heights[top] * (n - pse - 1));
         }
 
         return maxi;
