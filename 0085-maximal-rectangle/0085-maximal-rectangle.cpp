@@ -1,9 +1,8 @@
 class Solution {
 public:
-    int maxArea(vector<int>& heights) {
+    void maxArea(vector<int>& heights, int& maxi) {
         int n = heights.size();
         stack<int> st;
-        int maxi = 0;
         
         for (int i = 0; i < n; i++) {
             while (!st.empty() && heights[st.top()] >= heights[i]) {
@@ -23,8 +22,6 @@ public:
             int pse = st.empty() ? -1 : st.top();
             maxi = max(maxi, (n - pse - 1) * heights[top]);
         }
-
-        return maxi;
     }
     int maximalRectangle(vector<vector<char>>& matrix) {
         int m = matrix.size();
@@ -43,7 +40,7 @@ public:
                 }
             }
 
-            maxi = max(maxi, maxArea(heights));
+            maxArea(heights, maxi);
         }
 
         return maxi;
