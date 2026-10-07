@@ -16,18 +16,28 @@ public:
         if (ko + kc == 0) return true;
         return false;
     }
-    void recr(unordered_set<string>& st, string &s, string& curr, int ko, int kc, int i) {
+    void recr(unordered_set<string>& st, string &s, string& curr, int removed, int kc, int i) {
         if (i == s.size()) {
-            if (curr.size() == s.size() - ko - kc) {
+            if (curr.size() == s.size() - kc) {
+                if (valid(curr)) st.insert(curr);
+            }
+            return;
+        }
+
+        if (removed > kc) {
+            if (curr.size() == s.size() - kc) {
                 if (valid(curr)) st.insert(curr);
             }
             return;
         }
         
         curr += s[i];
-        recr(st, s, curr, ko, kc, i + 1);
+        recr(st, s, curr, removed, kc, i + 1);
         curr.pop_back();
-        recr(st, s, curr, ko, kc, i + 1);
+
+        if (s[i] == '(' || s[i] == ')') {
+            recr(st, s, curr, removed + 1, kc, i + 1);
+        }
     }
     vector<string> removeInvalidParentheses(string s) {
         unordered_set<string> st;
@@ -43,16 +53,18 @@ public:
             }
         }
 
-        if (ko == 0 && kc == 0) {
+        kc += ko;
+
+        if (kc == 0) {
             return {s};
         }
 
-        if (ko + kc == s.size()) {
+        if (kc == s.size()) {
             return {""};
         }
 
         string curr = "";
-        recr(st, s, curr, ko, kc, 0);
+        recr(st, s, curr, 0, kc, 0);
 
         vector<string> ans(st.begin(), st.end());
         return ans;
