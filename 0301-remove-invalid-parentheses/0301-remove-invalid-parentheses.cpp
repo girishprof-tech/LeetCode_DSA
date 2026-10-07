@@ -1,72 +1,55 @@
 class Solution {
 public:
-    bool valid(string& curr) {
-        int n = curr.length();
-        int ko = 0;
-        int kc = 0;
+    bool valid(string& s) {
+        int balance = 0;
 
-        for (int i = 0; i < n; i++) {
-            if (curr[i] == '(') ko++;
-            else if (curr[i] == ')') {
-                if (ko == 0) kc++;
-                else ko--;
+        for (char c : s) {
+            if (c == '(')
+                balance++;
+            else if (c == ')') {
+                balance--;
+
+                if (balance < 0)
+                    return false;
             }
         }
 
-        if (ko + kc == 0) return true;
-        return false;
+        return balance == 0;
     }
-    void recr(unordered_set<string>& st, string &s, string& curr, int removed, int kc, int i) {
-        if (i == s.size()) {
-            if (curr.size() == s.size() - kc) {
-                if (valid(curr)) st.insert(curr);
-            }
-            return;
-        }
 
-        if (removed > kc) {
-            if (curr.size() == s.size() - kc) {
-                if (valid(curr)) st.insert(curr);
-            }
-            return;
-        }
-        
-        curr += s[i];
-        recr(st, s, curr, removed, kc, i + 1);
-        curr.pop_back();
-
-        if (s[i] == '(' || s[i] == ')') {
-            recr(st, s, curr, removed + 1, kc, i + 1);
-        }
-    }
     vector<string> removeInvalidParentheses(string s) {
         unordered_set<string> st;
-        int n = s.length();
-        int ko = 0;
-        int kc = 0;
+        queue<string> q;
+        vector<string> ans;
 
-        for (int i = 0; i < n; i++) {
-            if (s[i] == '(') ko++;
-            else if (s[i] == ')') {
-                if (ko == 0) kc++;
-                else ko--;
+        q.push(s);
+        st.insert(s);
+
+        bool found = false;
+
+        while (!q.empty()) {
+            string curr = q.front();
+            q.pop();
+
+            if (valid(curr)) {
+                ans.push_back(curr);
+                found = true;
+            }
+
+            if (found) continue;
+
+            for (int i = 0; i < curr.size(); i++) {
+                if (curr[i] != '(' && curr[i] != ')') continue;
+
+                string next = curr.substr(0, i) + curr.substr(i + 1);
+
+                if (!st.count(next)) {
+                    st.insert(next);
+                    q.push(next);
+                }
             }
         }
 
-        kc += ko;
-
-        if (kc == 0) {
-            return {s};
-        }
-
-        if (kc == s.size()) {
-            return {""};
-        }
-
-        string curr = "";
-        recr(st, s, curr, 0, kc, 0);
-
-        vector<string> ans(st.begin(), st.end());
         return ans;
     }
 };
