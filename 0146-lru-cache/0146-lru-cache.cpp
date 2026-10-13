@@ -1,66 +1,116 @@
+class Node {
+public: 
+    int data; 
+    int val;
+    Node* next;
+    Node* prev;
+
+    Node(int d, int v) {
+        data = d;
+        val = v;
+        next = nullptr;
+        prev = nullptr;
+    }
+};
+
 class LRUCache {
-    queue<pair<int, int>> q;
+    Node* head;
+    Node* tail;
+    unordered_map<int, Node*> mpp;
     int cap;
+    int size;
 
 public:
     LRUCache(int capacity) {
-        cap = capacity;  
+        cap = capacity;
+        head = nullptr;
+        tail = nullptr;
+        size = 0;
     }
     
     int get(int key) {
-        queue<pair<int, int>> temp;
+        if (mpp.find(key) == mpp.end()) return -1;
 
-        while (!q.empty() && q.front().first != key) {
-            temp.push(q.front());
-            q.pop();
+        Node* temp = mpp[key];
+
+        if (tail == temp) {
+            return temp->val;
         }
 
-        int res;
-
-        if (q.empty()) {
-            res = -1;
-        }
-        else {
-            res = q.front().second;
-            q.push(q.front());
-            q.pop();
+        if (head == temp) {
+            head = head->next;
         }
 
-        while (!q.empty()) {
-            temp.push(q.front());
-            q.pop();
-        }
+        if (temp->next) temp->next->prev = temp->prev;
+        if (temp->prev) temp->prev->next = temp->next;
 
-        swap(q, temp);
+        tail->next = temp;
+        temp->prev = tail;
+        tail = tail->next;
+        temp->next = nullptr;
 
-        return res;
+        return temp->val;
     }
     
     void put(int key, int value) {
-        queue<pair<int, int>> temp;
+        if (mpp.find(key) != mpp.end()) {
+            Node* temp = mpp[key];
 
-        while (!q.empty() && q.front().first != key) {
-            temp.push(q.front());
-            q.pop();
-        }
-
-        if (q.empty()) {
-            swap(q, temp);
-            if (q.size() == cap) q.pop();
-            q.push({key, value});
-        }
-        else {
-            q.front().second = value;
-            q.push(q.front());
-            q.pop();
-
-            while (!q.empty()) {
-                temp.push(q.front());
-                q.pop();
+            if (tail == temp) {
+                mpp[key]->val = value;
+                return;
             }
 
-            swap(q, temp);
+            if (head == temp) {
+                head = head->next;
+            }
+            
+            if (temp->next) temp->next->prev = temp->prev;
+            if (temp->prev) temp->prev->next = temp->next;
+
+            tail->next = temp;
+            temp->prev = tail;
+            tail = tail->next;
+            temp->next = nullptr;
+
+            mpp[key]->val = value;
         }
+        else if (head == nullptr) {
+            Node* newNode = new Node(key, value);
+            tail = newNode;
+            head = newNode;
+            size = 1;
+            mpp[key] = tail;
+        }
+        else if (size == cap) {
+            int data = head->data;
+            mpp.erase(data);
+            head->data = key;
+            head->val = value;
+            mpp[key] = head;
+
+            if (head != tail) {
+                Node* temp = head;
+                head = head->next;
+
+                if (temp->next) temp->next->prev = temp->prev;
+                if (temp->prev) temp->prev->next = temp->next;
+
+                tail->next = temp;
+                temp->prev = tail;
+                tail = tail->next;
+                temp->next = nullptr;
+            }
+        }
+        else {
+            Node* newNode = new Node(key, value);
+
+            tail->next = newNode;
+            mpp[key] = newNode;
+            newNode->prev = tail;
+            tail = tail->next;
+            size++;
+        }    
     }
 };
 
