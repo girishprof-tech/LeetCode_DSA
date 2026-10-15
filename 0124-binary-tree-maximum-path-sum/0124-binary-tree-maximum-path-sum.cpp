@@ -15,12 +15,11 @@ public:
     int add(TreeNode* root) {
         if (root == nullptr) return 0;
 
-        int left = add(root->left);
-        int right = add(root->right);
+        int left = max(0, add(root->left));
+        int right = max(0, add(root->right));
 
-        sum = max(sum, root->val + max(max(left + right, 0), max(left, right)));
-
-        return max(root->val + max(left, right), 0);
+        sum = max(sum, root->val + left + right);
+        return root->val + max(left, right);
     }
     int maxPathSum(TreeNode* root) {
         if (root == nullptr) return 0;
