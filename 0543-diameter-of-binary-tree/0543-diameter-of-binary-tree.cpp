@@ -11,19 +11,15 @@
  */
 class Solution {
 public:
-    stack<int> st;
+    int ans = 0;
     int depth(TreeNode* root) {
         if (root == nullptr) return 0;
 
         int left = depth(root->left);
         int right = depth(root->right);
 
-        if (st.empty()) {
-            st.push(left + right);
-        }
-        else if (st.top() < left + right) {
-            st.pop();
-            st.push(left + right);
+        if (ans == 0 || ans < left + right) {
+            ans = left + right;
         }
 
         return 1 + max(left, right);
@@ -33,6 +29,6 @@ public:
 
         int d = depth(root);
 
-        return st.top();
+        return ans;
     }
 };
