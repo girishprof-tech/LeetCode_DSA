@@ -12,16 +12,20 @@
 class Solution {
 public:
     int depth(TreeNode* root) {
-        if (root == nullptr) return true;
+        if (root == nullptr) return 0;
 
         int left = depth(root->left);
+        if (left == -1) return -1;
         int right = depth(root->right);
+        if (right == -1) return -1;
+
+        if (abs(left - right) > 1) return -1; 
 
         return 1 + max(left, right);
     }
     bool isBalanced(TreeNode* root) {
         if (root == nullptr) return true;
 
-        return abs(depth(root->left) - depth(root->right)) <= 1 && isBalanced(root->left) && isBalanced(root->right);
+        return depth(root) != -1;
     }
 };
