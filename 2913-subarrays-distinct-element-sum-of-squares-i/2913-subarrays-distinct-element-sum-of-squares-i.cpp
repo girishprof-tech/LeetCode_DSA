@@ -3,14 +3,15 @@ public:
     int sumCounts(vector<int>& nums) {
         int n = nums.size();
         int ans = 0;
+        vector<int> freq(101);
 
         for (int i = 0; i < n; i++) {
-            int count = 0;
-            unordered_set<int> st;
+            int cnt = 0;
 
             for (int j = i; j < n; j++) {
-                st.insert(nums[j]);
-                ans += (st.size() * st.size());
+                cnt += (freq[nums[j]] != i + 1);
+                freq[nums[j]] = i + 1;
+                ans += (cnt * cnt);
             }
         }
 
