@@ -13,15 +13,15 @@ public:
         }
         sort(arr.begin(), arr.end());
 
-        unordered_set<int> st;
+        vector<bool> done(n, false);
         int swaps = 0;
         for (int i = 0; i < n; i++) {
-            if (st.count(i)) continue;
+            if (done[i] || arr[i][2] == i) continue;
 
-            st.insert(i);
+            done[i] = true;
             int j = arr[i][2];
-            while (i != j) {
-                st.insert(j);
+            while (!done[j]) {
+                done[j] = true;
                 swaps++;
                 j = arr[j][2];
             }
