@@ -13,84 +13,31 @@
 class Solution {
 public:
     TreeNode* deleteNode(TreeNode* root, int key) {
-        if (root == nullptr || (root->left == nullptr && root->right == nullptr && key == root->val))
-            return nullptr;
+        if (!root) return nullptr;
 
-        TreeNode* curr = root;
-        TreeNode* prev = curr;
-        while (curr && curr->val != key) {
-            if (curr->val > key) {
-                prev = curr;
-                curr = curr->left;
-            }
-            else {
-                prev = curr;
-                curr = curr->right;
-            }
-        }
-        
-        if (curr == nullptr) return root;
-
-        if (!curr->right && !curr->left) {
-            if (prev->val > key) {
-                prev->left = nullptr;
-            }
-            else {
-                prev->right = nullptr;
-            }
-
-            delete curr;
-            return root;
-        }
-
-        if (!curr->right) {
-            if (curr == root) {
-                root = root->left;
-            }
-            if (prev->val > key) {
-                prev->left = curr->left;
-            }
-            else {
-                prev->right = curr->left;
-            }
-            delete curr;
-            return root;
-        }
-        else if (!curr->left) {
-            if (curr == root) {
-                root = root->right;
-            }
-
-            if (prev->val > key) {
-                prev->left = curr->right;
-            }
-            else {
-                prev->right = curr->right;
-            }
-
-            delete curr;
-            return root;
-        }
-
-        prev = curr;
-        TreeNode* temp = curr->left;
-
-        while (temp->right) {
-            prev = temp;
-            temp = temp->right;
-        }
-        curr->val = temp->val;
-
-        if (!temp->right && !temp->left) {
-            if (curr->left == temp) prev->left = nullptr;
-            else prev->right = nullptr;
+        if (root->val > key) {
+            root->left = deleteNode(root->left, key);
+        } 
+        else if (root->val < key) {
+            root->right = deleteNode(root->right, key);
         }
         else {
-            if (curr->left == temp) prev->left = temp->left;
-            else prev->right = temp->left;
+            if (!root->left) {
+                return root->right;
+            }
+            if (!root->right) {
+                return root->left;
+            }
+
+            TreeNode* next = root->right;
+            while (next->left) {
+                next = next->left;
+            }
+
+            root->val = next->val;
+            root->right = deleteNode(root->right, root->val);
         }
-        
-        delete temp;
+
         return root;
     }
 };
