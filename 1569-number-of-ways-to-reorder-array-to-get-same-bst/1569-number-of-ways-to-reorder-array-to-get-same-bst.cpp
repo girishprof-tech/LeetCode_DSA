@@ -34,13 +34,6 @@ public:
         }
     }
 
-    long long nCr(int n, int r) {
-        if (r < 0 || r > n)
-            return 0;
-
-        return fact[n] * invFact[r] % MOD * invFact[n - r] % MOD;
-    }
-
     long long helper(vector<int>& nums) {
         int n = nums.size();
         if (n <= 2)
@@ -55,8 +48,9 @@ public:
         }
 
         int l = left.size();
+        long long nCr = (l < 0 || l > n - 1) ? 0 : fact[n - 1] * invFact[l] % MOD * invFact[n - 1 - l] % MOD;
 
-        return nCr(n - 1, l) * helper(left) % MOD * helper(right) % MOD;
+        return nCr * helper(left) % MOD * helper(right) % MOD;
     }
 
     int numOfWays(vector<int>& nums) {
