@@ -3,21 +3,12 @@ struct Node {
     Node* next;
     Node* prev;
 
-    Node(int k, int v) {
-        key = k;
-        val = v;
-        cnt = 1;
-        next = prev = nullptr;
-    }
+    Node(int k, int v) : key(k), val(v), cnt(1), next(nullptr), prev(nullptr) {}
 };
 
 struct DLL {
-    Node* front;
-    Node* back;
-
-    DLL() {
-        front = back = nullptr;
-    }
+    Node* front = nullptr;
+    Node* back = nullptr;
 
     void add(Node* newNode) {
         if (!front) {
@@ -30,111 +21,92 @@ struct DLL {
         front = newNode;
     }
 
-    void remove(Node* root) {
-        if (!back) return;
+    void remove(Node* node) {
+        if (node == front) front = node->prev;
+        if (node == back) back = node->next;
 
-        if (back == front) {
-            back = front = nullptr;
-            root->next = root->prev = nullptr;
-            return;
-        }
+        if (node->prev) node->prev->next = node->next;
+        if (node->next) node->next->prev = node->prev;
 
-        if (root == back) back = back->next;
-        if (root == front) front = front->prev;
-
-        if (root->next) root->next->prev = root->prev;
-        if (root->prev) root->prev->next = root->next;
-
-        root->next = root->prev = nullptr;
+        node->next = node->prev = nullptr;
     }
 
     Node* removeLast() {
-        if (!back) return nullptr;
-
         Node* temp = back;
-
-        if (front == back) {
-            front = back = nullptr;
-        }
-        else {
-            back = back->next;
-            back->prev = nullptr;
-        }
-
-        temp->next = temp->prev = nullptr;
+        if (temp) remove(temp);
         return temp;
+    }
+
+    bool empty() const {
+        return front == nullptr;
     }
 };
 
 class LFUCache {
-    int cap;
-    int minFreq = 0;
-
+    int cap, minFreq = 0;
     unordered_map<int, Node*> mpp;
     unordered_map<int, DLL> freq;
 
-public:
-    LFUCache(int capacity) {
-        cap = capacity;
-        mpp.reserve(capacity);
-    }
-    
-    int get(int key) {
-        if (mpp.find(key) == mpp.end()) return -1;
+    void update(Node* root) {
+        int oldFreq = root->cnt;
+        auto it = freq.find(oldFreq);
 
-        Node* curr = mpp[key];
-        int oldFreq = curr->cnt;
-        freq[oldFreq].remove(curr);
-
-        curr->cnt++;
-        freq[curr->cnt].add(curr);
-
-        if (oldFreq == minFreq && freq[oldFreq].front == nullptr) {
-            freq.erase(oldFreq);
-            minFreq++;
+        it->second.remove(root);
+        if (it->second.empty()) {
+            freq.erase(it);
+            if (minFreq == oldFreq) minFreq++;
         }
 
+        root->cnt++;
+        freq[root->cnt].add(root);
+    }
+
+public:
+    LFUCache(int capacity) : cap(capacity) {}
+    
+    int get(int key) {
+        auto it = mpp.find(key);
+
+        if (it == mpp.end()) return -1;
+
+        Node* curr = it->second;
+        update(curr);
         return curr->val;
     }
     
     void put(int key, int value) {
         if (cap == 0) return;
 
-        if (mpp.find(key) != mpp.end()) {
-            Node* curr = mpp[key];
-            int oldFreq = curr->cnt;
-            freq[oldFreq].remove(curr);
+        auto it = mpp.find(key);
 
-            curr->cnt++;
-            freq[curr->cnt].add(curr);
-
-            if (oldFreq == minFreq && freq[oldFreq].front == nullptr) {
-                freq.erase(oldFreq);
-                minFreq++;
-            }
-
+        if (it != mpp.end()) {
+            Node* curr = it->second;
             curr->val = value;
+            update(curr);
+            return;
         }
-        else {
-            Node* newNode = new Node(key, value);
 
-            if (mpp.size() == cap) {
-                int f = minFreq;
-                Node* temp = freq[f].removeLast();
+        if (mpp.size() == cap) {
+            auto fit = freq.find(minFreq);
+            Node* temp = fit->second.removeLast();
 
-                if (temp) {
-                    mpp.erase(temp->key);
-                    delete temp;
-                }
+            mpp.erase(temp->key);
+            delete temp;
 
-                if (freq[f].front == nullptr) {
-                    freq.erase(f);
-                }
+            if (fit->second.empty()) {
+                freq.erase(fit);
             }
+        }
 
-            minFreq = 1;
-            mpp[key] = newNode;
-            freq[1].add(newNode);
+        Node* newNode = new Node(key, value);
+        minFreq = 1;
+        mpp[key] = newNode;
+        freq[1].add(newNode);
+    }
+
+    ~LFUCache() {
+        for (auto& entry : mpp) {
+            delete entry.second;
         }
     }
 };
