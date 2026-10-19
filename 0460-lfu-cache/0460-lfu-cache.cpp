@@ -76,6 +76,8 @@ class LFUCache {
 public:
     LFUCache(int capacity) {
         cap = capacity;
+        mpp.reserve(capacity);
+        freq.reserve(capacity);
     }
     
     int get(int key) {
@@ -118,8 +120,17 @@ public:
             Node* newNode = new Node(key, value);
 
             if (mpp.size() == cap) {
-                Node* temp = freq[minFreq].removeLast();
-                if (temp) mpp.erase(temp->key);
+                int f = minFreq;
+                Node* temp = freq[f].removeLast();
+
+                if (temp) {
+                    mpp.erase(temp->key);
+                    delete temp;
+                }
+
+                if (freq[f].front == nullptr) {
+                    freq.erase(f);
+                }
             }
 
             minFreq = 1;
