@@ -77,7 +77,6 @@ public:
     LFUCache(int capacity) {
         cap = capacity;
         mpp.reserve(capacity);
-        freq.reserve(capacity);
     }
     
     int get(int key) {
