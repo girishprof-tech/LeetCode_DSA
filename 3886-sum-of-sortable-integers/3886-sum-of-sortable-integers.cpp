@@ -2,43 +2,44 @@ class Solution {
 public:
     int sortableIntegers(vector<int>& nums) {
         int n = nums.size();
-        int res = 0;
-
-        int edge = 0;
-        for (int i = 0; i < n - 1; i++) {
-            if (nums[i] > nums[i + 1]) edge++;
+        
+        vector<int> desc(n);
+        for (int i = 1; i < n; i++) {
+            desc[i] = desc[i - 1] + (nums[i - 1] > nums[i]);
         }
-        if (edge == 0) res += 1;
 
-        for (int k = 2; k <= n; k++) {
-            if (n % k != 0) continue;
-            
-            int prevMax = INT_MIN;
-            bool flag = true;
-            for (int i = 0; i < n; i += k) {
-                int currMax = INT_MIN;
-                int currMin = INT_MAX;
-                int cnt = 0;
+        vector<int> preMax(n), sufMin(n);
+        inclusive_scan(nums.begin(), nums.end(), preMax.begin(), [](int a, int b) {
+            return max(a, b);
+        });
+        inclusive_scan(nums.rbegin(), nums.rend(), sufMin.rbegin(), [](int a, int b) {
+            return min(a, b);
+        });
 
-                for (int j = 0; j < k; j++) {
-                    if (nums[i + j] > nums[i + (j + 1) % k]) cnt++;
+        vector<bool> cut(n, true);
+        for (int m = 1; m < n; m++) {
+            cut[m] = preMax[m - 1] <= sufMin[m];
+        }
 
-                    currMin = min(currMin, nums[i + j]);
-                    currMax = max(currMax, nums[i + j]);
-                }
+        auto rotatable = [&](int l, int r) {
+            return desc[r] - desc[l] + (nums[r] > nums[l]) <= 1;
+        };
 
-                if (prevMax > currMin || cnt > 1) {
-                    flag = false;
-                    break;
-                }
-
-                prevMax = currMax;
+        auto sortable = [&](int k) {
+            for (int l = 0; l < n; l += k) {
+                if (!cut[l] || !rotatable(l, l + k - 1)) return false;
             }
+            return true;
+        };
 
-            if (flag) res += k;
+        vector<int> divisors;
+        for (int k = 1; k <= n; k++) {
+            if (n % k == 0) {
+                divisors.push_back(k);
+            }
         }
 
-
-        return res;
+        auto good = divisors | views::filter(sortable);
+        return accumulate(good.begin(), good.end(), 0);
     }
 };
