@@ -15,12 +15,11 @@ public:
             if (i < n - 1 && s[i] > s[i + 1]) cnt++;
 
             if (s[mx] <= s[i]) mx = i;
-            if (s[mn] > s[i]) mn = i;
+            else if (s[mn] > s[i]) mn = i;
         }
 
         if (cnt == 0) return 0;
-        if (mx == 0 && mn == n - 1 && cnt == 1) return 2;
-        if (mx == 0 && mn == n - 1) return 3;
+        if (mx == 0 && mn == n - 1 && cnt != 1) return 3;
         if (mn == 0 || mx == n - 1) return 1;
         return 2;
     }
