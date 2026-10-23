@@ -2,24 +2,12 @@ class Solution {
 public:
     int sortPermutation(vector<int>& nums) {
         int n = nums.size();
-        int mx = 0;
-        int i = 0;
-
-        while (i < n) {
-            if (nums[i] != i) {
-                mx = nums[i];
-                break;
-            }
-            i++;
+        int mx = -1;
+        
+        for (int i = 0; i < n; i++) {
+            if (nums[i] != i) mx &= nums[i];
         }
 
-        while (i < n) {
-            if (nums[i] != i) {
-                mx &= nums[i];
-            }
-            i++;
-        }
-
-        return mx;
+        return max(mx, 0);
     }
 };
