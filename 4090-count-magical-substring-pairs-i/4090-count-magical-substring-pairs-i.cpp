@@ -18,7 +18,7 @@ public:
             }
         }
 
-        int ans = 0;
+        long long ans = 0;
         for (int j = 0; j < n - 1; j++) {
             vector<int> leftFre(27, 0);
             vector<int> rightFre(27, 0);
