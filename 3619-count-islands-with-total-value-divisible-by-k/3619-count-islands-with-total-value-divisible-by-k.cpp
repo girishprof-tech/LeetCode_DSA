@@ -15,14 +15,18 @@ public:
         return curr + top + bottom + left + right;
     }
     int countIslands(vector<vector<int>>& grid, int k) {
+        if (grid.size() <= 0 || grid[0].size() <= 0) return 0;
+
+        int m = grid.size();
+        int n = grid[0].size();
         int res = 0;
 
-        for (int i = 0; i < grid.size(); i++) {
-            for (int j = 0; j < grid[0].size(); j++) {
-                if (grid[i][j] == 0) continue;
-
-                long long val = recr(grid, i, j);
-                if (val % k == 0) res++;
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (grid[i][j] > 0) {
+                    long long val = recr(grid, i, j);
+                    if (val % k == 0) res++;
+                }
             }
         }
 
