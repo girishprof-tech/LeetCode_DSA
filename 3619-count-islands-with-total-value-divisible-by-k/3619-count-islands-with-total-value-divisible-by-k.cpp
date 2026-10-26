@@ -1,7 +1,8 @@
 class Solution {
 public:
     long long recr(vector<vector<int>>& grid, int r, int c) {
-        if (r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size() || grid[r][c] == 0) return 0;
+        if (r < 0 || r >= grid.size() || c < 0 || c >= grid[0].size()) return 0;
+        if (grid[r][c] == 0) return 0;
 
         long long curr = grid[r][c];
         grid[r][c] = 0;
