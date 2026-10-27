@@ -27,7 +27,7 @@ public:
         vector<vector<int>> ans;
         int prev = INT_MIN;
 
-        for (auto& [col, row, val] : list) {
+        for (auto [col, row, val] : list) {
             if (col != prev) {
                 ans.push_back({});
                 prev = col;
