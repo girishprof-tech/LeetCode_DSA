@@ -2,18 +2,8 @@ class Solution {
 public:
     int minMoves(vector<int>& nums) {
         int n = nums.size();
-        if (n == 1) return 0;
-
-        sort(nums.begin(), nums.end());
-        int res = 0;
-        
-        int dec = 1, ind = n - 2;
-        while (ind >= 0) {
-            res += dec * (nums[ind + 1] - nums[ind]);
-            dec++;
-            ind--;
-        }
-
-        return res;
+        int sum = accumulate(nums.begin(), nums.end(), 0);
+        int mini = *min_element(nums.begin(), nums.end());
+        return sum - mini * n;
     }
 };
