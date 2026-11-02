@@ -5,11 +5,10 @@ public:
         int res = 0;
         sort(nums.begin(), nums.end());
 
-        for (int i = 0; i < n / 2; i++) {
-            res += nums[n / 2] - nums[i];
-        }
-        for (int i = n / 2 + 1; i < n; i++) {
-            res += nums[i] - nums[n / 2];
+        int med = nums[(n - 1) / 2];
+
+        for (int i = 0; i < n; i++) {
+            res += abs(nums[i] - med);
         }
 
         return res;
