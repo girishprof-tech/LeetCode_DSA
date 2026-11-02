@@ -21,23 +21,16 @@ public:
         while (!q.empty()) {
             int n = q.size();
 
-            for (int i = 0; i < n - 1; i++) {
+            for (int i = 0; i < n; i++) {
                 TreeNode* curr = q.front().first;
                 int row = q.front().second;
                 q.pop();
 
+                if (i == n - 1) ans.push_back(curr->val);
+
                 if (curr->left) q.push({curr->left, row + 1});
                 if (curr->right) q.push({curr->right, row + 1});
             }
-            
-            TreeNode* curr = q.front().first;
-            int row = q.front().second;
-
-            ans.push_back(curr->val);
-            q.pop();
-
-            if (curr->left) q.push({curr->left, row + 1});
-            if (curr->right) q.push({curr->right, row + 1});
         }
 
         return ans;
