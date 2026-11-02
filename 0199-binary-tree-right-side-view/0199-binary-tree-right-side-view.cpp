@@ -11,28 +11,20 @@
  */
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        if (root == nullptr) return {};
-        queue<pair<TreeNode*, int>> q;
-        vector<int> ans;
-        
-        q.push({root, 0});
+    void recr(TreeNode* root, vector<int>& ans, int row) {
+        if (!root) return;
 
-        while (!q.empty()) {
-            int n = q.size();
-
-            for (int i = 0; i < n; i++) {
-                TreeNode* curr = q.front().first;
-                int row = q.front().second;
-                q.pop();
-
-                if (i == n - 1) ans.push_back(curr->val);
-
-                if (curr->left) q.push({curr->left, row + 1});
-                if (curr->right) q.push({curr->right, row + 1});
-            }
+        if (ans.size() == row) {
+            ans.push_back(root->val);
         }
 
+        recr(root->right, ans, row + 1);
+        recr(root->left, ans, row + 1);
+    }
+    vector<int> rightSideView(TreeNode* root) {
+        if (root == nullptr) return {};
+        vector<int> ans;
+        recr(root, ans, 0);
         return ans;
     }
 };
