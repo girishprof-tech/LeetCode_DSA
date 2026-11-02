@@ -5,8 +5,7 @@ public:
         long long res = LLONG_MAX;
         sort(beans.begin(), beans.end());
 
-        long long sum = 0;
-        for (int i = 0; i < n; i++) sum += beans[i];
+        long long sum = accumulate(beans.begin(), beans.end(), 0LL);
 
         for (int i = 0; i < n; i++) {
             long long temp = sum - 1LL * (n - i) * beans[i];
