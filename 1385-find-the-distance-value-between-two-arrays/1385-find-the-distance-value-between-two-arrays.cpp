@@ -6,13 +6,12 @@ public:
 
         int res = 0;
         for (int i = 0; i < m; i++) {
-            int cnt = 0;
-            for (int j = 0; j < n; j++) {
-                if (abs(arr1[i] - arr2[j]) > d) cnt++;
-                else break;
+            int j = 0;
+            for (j = 0; j < n; j++) {
+                if (abs(arr1[i] - arr2[j]) <= d) break;
             }
 
-            if (cnt == n) res++;
+            if (j == n) res++;
         }
 
         return res;
