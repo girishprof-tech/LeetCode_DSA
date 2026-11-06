@@ -1,15 +1,12 @@
 class Solution {
 public:
     vector<int> countServers(int n, vector<vector<int>>& logs, int x, vector<int>& queries) {
-        int size = queries.size();
-        vector<int> res(size, 0);
-
         sort(logs.begin(), logs.end(), [](vector<int>& a, vector<int>& b) {
             return a[1] < b[1];
         });
 
         unordered_map<int, int> mpp;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < queries.size(); i++) {
             mpp[queries[i]] = i;
         }
 
@@ -17,12 +14,15 @@ public:
 
         int l = 0, r = 0;
         unordered_map<int, int> freq;
+        vector<int> res(queries.size());
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < queries.size(); i++) {
             while (l < logs.size() && queries[i] - x > logs[l][1]) {
-                if (freq.find(logs[l][0]) != freq.end()) {
-                    if (freq[logs[l][0]] == 1) freq.erase(logs[l][0]);
-                    else freq[logs[l][0]]--;
+                int id = logs[l][0];
+                
+                if (freq.find(id) != freq.end()) {
+                    if (freq[id] == 1) freq.erase(id);
+                    else freq[id]--;
                 }
 
                 l++;
