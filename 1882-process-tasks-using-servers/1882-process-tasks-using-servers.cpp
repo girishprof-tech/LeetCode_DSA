@@ -12,15 +12,9 @@ public:
             avail.push({servers[i], i});
         }
 
-        queue<int> q;
-        for (int j = 0; j < m; j++) {
-            q.push(j);
-        }
-
         long long time = 0;
-        while (!q.empty()) {
-            int idx = q.front();
-            time = max(time, (long long)idx);
+        for (int j = 0; j < m; j++) {
+            time = max(time, (long long)j);
 
             while (!busy.empty() && busy.top()[0] <= time) {
                 avail.push({busy.top()[1], busy.top()[2]});
@@ -36,13 +30,11 @@ public:
                 }
             }
 
-            pair<int, int> p = avail.top();
+            auto p = avail.top();
             avail.pop();
 
-            busy.push({time + tasks[idx], p.first, p.second});
-
-            ans[idx] = p.second;
-            q.pop();
+            ans[j] = p.second;
+            busy.push({time + tasks[j], p.first, p.second});
         }
 
         return ans;
