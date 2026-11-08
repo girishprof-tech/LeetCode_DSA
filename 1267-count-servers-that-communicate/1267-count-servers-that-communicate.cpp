@@ -4,7 +4,6 @@ public:
         int m = grid.size();
         int n = grid[0].size();
 
-        set<pair<int, int>> row;
         int res = 0;
 
         for (int i = 0; i < m; i++) {
@@ -19,7 +18,7 @@ public:
 
                 for (int j = 0; j < n; j++) {
                     if (grid[i][j] == 1) {
-                        row.insert({i, j});
+                        grid[i][j] = 2;
                     }
                 }
             }
@@ -29,12 +28,12 @@ public:
             int sum = 0;
 
             for (int i = 0; i < m; i++) {
-                if (grid[i][j] == 1) sum++;
+                if (grid[i][j] >= 1) sum++;
             }
 
             if (sum >= 2) {
                 for (int i = 0; i < m; i++) {
-                    if (grid[i][j] == 1 && row.find({i, j}) != row.end()) {
+                    if (grid[i][j] > 1) {
                         sum--;
                     }
                 }
