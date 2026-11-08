@@ -25,20 +25,16 @@ public:
         }
 
         for (int j = 0; j < n; j++) {
-            int sum = 0;
+            int sum1 = 0;
+            int sum2 = 0;
 
             for (int i = 0; i < m; i++) {
-                if (grid[i][j] >= 1) sum++;
+                if (grid[i][j] == 1) sum1++;
+                else if (grid[i][j] > 1) sum2++;
             }
 
-            if (sum >= 2) {
-                for (int i = 0; i < m; i++) {
-                    if (grid[i][j] > 1) {
-                        sum--;
-                    }
-                }
-
-                res += sum;
+            if ((sum1 == 1 && sum2 > 0) || sum1 > 1) {
+                res += sum1;
             }
         }
 
