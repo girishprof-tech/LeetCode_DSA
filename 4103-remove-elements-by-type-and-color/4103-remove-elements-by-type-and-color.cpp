@@ -1,21 +1,25 @@
 class Solution {
 public:
+    struct Node {
+        int cnt, type, color;
+
+        Node(int c, int t, int co) : cnt(c), type(t), color(co) {}
+    };
+
     bool canRemoveAll(vector<int>& types, vector<int>& colors, vector<int>& groupSize) {
         int n = types.size();
 
-        stack<vector<int>> st;
-        st.push({0, 0, 0});
+        stack<Node> st;
+        st.push(Node(0, 0, 0));
 
         for (int i = 0; i < n; i++) {
-            if (types[i] != st.top()[1] || colors[i] != st.top()[2]) {
-                st.push({0, types[i], colors[i]});
+            if (types[i] != st.top().type || colors[i] != st.top().color) {
+                st.push(Node(0, types[i], colors[i]));
             }
 
-            st.top()[0]++;
+            st.top().cnt++;
 
-            if (st.top()[0] == groupSize[st.top()[1]]) {
-                st.pop();
-            }
+            if (st.top().cnt == groupSize[st.top().type]) st.pop();
         }
 
         if (st.size() == 1) return true;
