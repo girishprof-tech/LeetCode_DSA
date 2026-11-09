@@ -28,8 +28,7 @@ public:
 
             if (avail.empty()) continue;
 
-            int ind = i % k;
-            auto it = avail.lower_bound(ind);
+            auto it = avail.lower_bound(i % k);
 
             if (it == avail.end()) {
                 it = avail.begin();
