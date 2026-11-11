@@ -20,16 +20,17 @@ public:
         q.push({root, 1});
 
         while (!q.empty()) {
-            long long first = q.front().second, last = 0;
+            long long first = q.front().second;
+            long long last = q.back().second;
             long long nextFirst = 0;
             int size = q.size();
+
+            ans = max(ans, int(last - first + 1));
 
             for (int i = 0; i < size; i++) {
                 TreeNode* curr = q.front().first;
                 long long num = q.front().second;
                 q.pop();
-
-                last = num;
 
                 if (curr->left) {
                     if (nextFirst == 0) nextFirst = num * 2 - 1;
@@ -40,8 +41,6 @@ public:
                     q.push({curr->right, num * 2 - nextFirst + 1});
                 }
             }
-
-            ans = max(ans, (int)(last - first + 1));
         }
 
         return ans;
