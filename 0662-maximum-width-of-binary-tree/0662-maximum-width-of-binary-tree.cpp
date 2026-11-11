@@ -20,8 +20,7 @@ public:
         q.push({root, 1});
 
         while (!q.empty()) {
-            int first = 0, last = 0;
-            long long nextFirst = 0;
+            long long first = 0, last = 0;
             int size = q.size();
 
             for (int i = 0; i < size; i++) {
@@ -29,20 +28,18 @@ public:
                 long long num = q.front().second;
                 q.pop();
 
-                if (first == 0) first = num;
-                last = num;
+                if (i == 0) first = num;
+                if (i == size - 1) last = num;
 
                 if (curr->left) {
-                    if (nextFirst == 0) nextFirst = num * 2 - 1;
-                    q.push({curr->left, num * 2 - nextFirst});
+                    q.push({curr->left, num * 2 - first});
                 }
                 if (curr->right) {
-                    if (nextFirst == 0) nextFirst = num * 2;
-                    q.push({curr->right, num * 2 - nextFirst + 1});
+                    q.push({curr->right, num * 2 - first + 1});
                 }
             }
 
-            ans = max(ans, last - first + 1);
+            ans = max(ans, (int)(last - first + 1));
         }
 
         return ans;
