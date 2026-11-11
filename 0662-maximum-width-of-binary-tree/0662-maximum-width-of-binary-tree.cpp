@@ -21,6 +21,7 @@ public:
 
         while (!q.empty()) {
             int first = 0, last = 0;
+            long long nextFirst = 0;
             int size = q.size();
 
             for (int i = 0; i < size; i++) {
@@ -31,8 +32,14 @@ public:
                 if (first == 0) first = num;
                 last = num;
 
-                if (curr->left) q.push({curr->left, num * 2 - (first - 1) * 2 - 1});
-                if (curr->right) q.push({curr->right, num * 2 - (first - 1) * 2});
+                if (curr->left) {
+                    if (nextFirst == 0) nextFirst = num * 2 - 1;
+                    q.push({curr->left, num * 2 - nextFirst});
+                }
+                if (curr->right) {
+                    if (nextFirst == 0) nextFirst = num * 2;
+                    q.push({curr->right, num * 2 - nextFirst + 1});
+                }
             }
 
             ans = max(ans, last - first + 1);
