@@ -14,7 +14,7 @@ public:
 
             while (right < n) {
                 sum += nums[right];
-                
+
                 if (sum > 0 && sum < ans) {
                     ans = sum;
                 }
