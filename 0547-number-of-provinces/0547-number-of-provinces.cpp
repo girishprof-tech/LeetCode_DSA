@@ -3,36 +3,30 @@ public:
     int findCircleNum(vector<vector<int>>& isConnected) {
         int n = isConnected.size();
         int ans = 0;
-        unordered_set<int> st;
 
-        for (int i = 0; i < n; i++) {
-            if (st.count(i)) continue;
+        vector<bool> visited(n, false);
+        queue<int> q;
+
+        for (int t = 0; t < n; t++) {
+            if (visited[t]) continue;
 
             ans++;
-            st.insert(i);
-            queue<int> q;
-
-            for (int j = i + 1; j < n; j++) {
-                if (isConnected[i][j]) {
-                    st.insert(j);
-                    q.push(j);
-                }
-            }
+            q.push(t);
+            visited[t] = true;
 
             while (!q.empty()) {
                 int node = q.front();
                 q.pop();
 
-                for (int j = 0; j < n; j++) {
-                    if (st.count(j)) continue;
-
-                    if (isConnected[node][j]) {
-                        q.push(j);
-                        st.insert(j);
+                for (int i = 0; i < n; i++) {
+                    if (!visited[i] && isConnected[node][i]) {
+                        visited[i] = true;
+                        q.push(i);
                     }
                 }
             }
         }
+        
 
         return ans;
     }
