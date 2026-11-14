@@ -12,8 +12,8 @@ public:
             st.insert(i);
             queue<int> q;
 
-            for (int j = 0; j < n; j++) {
-                if (isConnected[i][j] && i != j) {
+            for (int j = i + 1; j < n; j++) {
+                if (isConnected[i][j]) {
                     st.insert(j);
                     q.push(j);
                 }
