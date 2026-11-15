@@ -3,10 +3,9 @@ public:
     int numOfSubarrays(vector<int>& arr) {
         int n = arr.size();
         const int MOD = 1e9 + 7;
-
         int even = 1, odd = 0;
-        int sum = 0;
 
+        int sum = 0;
         for (int i = 0; i < n; i++) {
             sum += arr[i];
             
