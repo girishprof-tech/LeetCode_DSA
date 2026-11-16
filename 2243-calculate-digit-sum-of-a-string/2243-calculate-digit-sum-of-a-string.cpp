@@ -1,11 +1,11 @@
 class Solution {
 public:
     string digitSum(string s, int k) {
+        string temp = "";
         int sum = 0;
 
         while (s.size() > k) {
-            string temp = "";
-            
+
             for (int i = 0; i < s.size(); i++) {
                 sum += s[i] - '0';
 
@@ -16,6 +16,7 @@ public:
             }
 
             s = temp;
+            temp = "";
         }
 
         return s;
