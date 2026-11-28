@@ -9,24 +9,8 @@
  */
 class Solution {
 public:
-    void dfs(vector<int>& ans, unordered_set<int>& visited, unordered_map<TreeNode*, TreeNode*>& parent, TreeNode* root, int lvl, int k) {
-        if (root == nullptr) return;
-
-        if (lvl == k) {
-            ans.push_back(root->val);
-            return;
-        }
-
-        visited.insert(root->val);
-
-        if (root->left && visited.find(root->left->val) == visited.end()) dfs(ans, visited, parent, root->left, lvl + 1, k);
-        if (root->right && visited.find(root->right->val) == visited.end()) dfs(ans, visited, parent, root->right, lvl + 1, k);
-        if (parent[root] && visited.find(parent[root]->val) == visited.end()) dfs(ans, visited, parent, parent[root], lvl + 1, k);
-    }
     vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
         unordered_map<TreeNode*, TreeNode*> parent;
-        vector<int> ans;
-
         queue<TreeNode*> q;
         q.push(root);
 
@@ -49,9 +33,40 @@ public:
             }
         }
 
-        unordered_set<int> visited;
-        visited.insert(target->val);
-        dfs(ans, visited, parent, target, 0, k);
+        vector<int> ans;
+        unordered_map<TreeNode*, bool> visited;
+        while (!q.empty()) q.pop();
+        q.push(target);
+
+        while (!q.empty()) {
+            int n = q.size();
+            if (k == 0) break;
+
+            for (int i = 0; i < n; i++) {
+                TreeNode* node = q.front();
+                q.pop();
+
+                visited[node] = true;
+                
+                if (node->left && !visited[node->left]) {
+                    q.push(node->left);
+                }
+                if (node->right && !visited[node->right]) {
+                    q.push(node->right);
+                }
+                if (node != root && !visited[parent[node]]) {
+                    q.push(parent[node]);
+                }
+            }
+
+            k--;
+        }
+
+        while (!q.empty()) {
+            ans.push_back(q.front()->val);
+            q.pop();
+        }
+
         return ans;
     }
 };
